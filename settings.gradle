@@ -1,2 +1,4 @@
-include 'app-core'
+include 'app-data'
+include 'app-commons'
+include 'app-api'
 

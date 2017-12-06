@@ -1,4 +1,4 @@
-package com.enginizer.resttemplate.model;
+package com.enginizer.resttemplate.entity;
 
 public class User {
 
