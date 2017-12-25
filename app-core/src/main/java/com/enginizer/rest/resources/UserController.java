@@ -7,6 +7,7 @@ import com.enginizer.rest.model.dto.UserDTO;
 import com.enginizer.rest.model.entity.User;
 import com.enginizer.rest.service.UserService;
 import com.enginizer.rest.service.exception.ResourceNotFound;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.net.URI;
@@ -30,6 +31,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("${app.baseURL}/users")
+@Api(value = "UserResource", description = "User API", basePath = "${app.baseURL}/users", tags = {"User"})
 public class UserController {
 
     @Autowired
@@ -48,6 +50,8 @@ public class UserController {
      * @return a {@link Page} of {@link User}
      */
     @GetMapping
+    @ApiOperation(value = "Get All Users", notes = "Retrieves all the users with paging and sorting.", tags = {
+            "User"})
     public Page<User> getAllUsers(Pageable pageable) {
         return userService.getAllUsers(pageable);
     }
@@ -58,6 +62,8 @@ public class UserController {
      * @return the {@link User} identified by the URI.
      */
     @GetMapping(value = "/{id}")
+    @ApiOperation(value = "Get User by Id", notes = "Retrieves a User resource by the specified URI.", tags = {
+            "User"})
     public Resource<UserDTO> getUserById(@PathVariable("id") Long id) {
 
         User userById = userService.getUserById(id);
@@ -81,6 +87,7 @@ public class UserController {
      * @return 201 is successful.
      */
     @PutMapping
+    @ApiOperation(value = "Create User", notes = "Creates a new User", tags = {"User"})
     public ResponseEntity<UserDTO> createUser(
             @ApiParam(name = "user", required = true)
             @RequestBody
@@ -100,6 +107,8 @@ public class UserController {
      * @return 200 if success
      */
     @DeleteMapping(value = "/{id}")
+    @ApiOperation(value = "Delete User", notes = "Delete a User Resource by it's URI", tags = {
+            "User"})
     public ResponseEntity<User> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.ok().build();

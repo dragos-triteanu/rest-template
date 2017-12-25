@@ -1,5 +1,6 @@
 package com.enginizer.rest.resources;
 
+import io.swagger.annotations.Api;
 import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
 @RequestMapping("${app.baseURL}/i18n")
+@Api(value = "I18nResource", description = "I18n API", basePath = "${app.baseURL}/i18n", tags = {"I18n"})
 public class I18nController {
 
     @Autowired
