@@ -1,17 +1,17 @@
-package com.enginizer.resttemplate.model;
+package com.enginizer.resttemplate.model.dto;
 
-public class User {
+public class UserDTO {
 
     private Long id;
     private String username;
     private String password;
 
-    public User() {
+    public Long getId() {
+        return id;
     }
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -28,13 +28,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }
