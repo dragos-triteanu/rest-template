@@ -1,4 +1,4 @@
-package com.enginizer.resttemplate.handler;
+package com.enginizer.rest.handler;
 
 import java.util.Date;
 import java.util.Locale;

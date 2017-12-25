@@ -1,4 +1,4 @@
-package com.enginizer.resttemplate;
+package com.enginizer.rest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

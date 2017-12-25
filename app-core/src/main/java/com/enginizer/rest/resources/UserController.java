@@ -1,15 +1,23 @@
-package com.enginizer.resttemplate.controller;
+package com.enginizer.rest.resources;
 
-import com.enginizer.resttemplate.model.entity.User;
-import com.enginizer.resttemplate.service.UserService;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
+import com.enginizer.rest.model.dto.UserDTO;
+import com.enginizer.rest.model.entity.User;
+import com.enginizer.rest.service.UserService;
+import com.enginizer.rest.service.exception.ResourceNotFound;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.net.URI;
-import java.util.Locale;
 import javax.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +38,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     /**
      * Retrieves all the {@link User} with paging and sorting.
      *
@@ -47,8 +58,21 @@ public class UserController {
      * @return the {@link User} identified by the URI.
      */
     @GetMapping(value = "/{id}")
-    public User getUserById(@PathVariable("id") Long id) {
-        return userService.getUserById(id);
+    public Resource<UserDTO> getUserById(@PathVariable("id") Long id) {
+
+        User userById = userService.getUserById(id);
+
+        if (null == userById) {
+            throw new ResourceNotFound(User.class);
+        }
+
+        UserDTO dto = modelMapper.map(userById, UserDTO.class);
+        Resource<UserDTO> userResource = new Resource<>(dto);
+        ControllerLinkBuilder linkTo = linkTo(
+                methodOn(this.getClass()).getAllUsers(null));
+        userResource.add(linkTo.withRel("all-users"));
+
+        return userResource;
     }
 
     /**
@@ -57,11 +81,15 @@ public class UserController {
      * @return 201 is successful.
      */
     @PutMapping
-    public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
-        User createdUser = userService.createUser(user);
+    public ResponseEntity<UserDTO> createUser(
+            @ApiParam(name = "user", required = true)
+            @RequestBody
+            @Valid UserDTO user) {
+        UserDTO createdUser = userService.createUser(user);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(createdUser.getId()).toUri();
+
         return ResponseEntity.created(uri).body(createdUser);
     }
 

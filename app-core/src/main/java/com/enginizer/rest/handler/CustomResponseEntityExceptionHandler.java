@@ -1,6 +1,6 @@
-package com.enginizer.resttemplate.handler;
+package com.enginizer.rest.handler;
 
-import com.enginizer.resttemplate.service.exception.ResourceNotFound;
+import com.enginizer.rest.service.exception.ResourceNotFound;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

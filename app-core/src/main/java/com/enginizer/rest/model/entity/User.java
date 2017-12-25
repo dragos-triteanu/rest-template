@@ -1,4 +1,4 @@
-package com.enginizer.resttemplate.model.entity;
+package com.enginizer.rest.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +18,7 @@ public class User {
     private Long id;
 
     @Column(name = "username")
-    @Email(message = "{user.email.invalid}")
+    @Email
     private String username;
 
     @Column(name = "password")

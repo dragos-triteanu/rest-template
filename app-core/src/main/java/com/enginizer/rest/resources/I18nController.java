@@ -1,4 +1,4 @@
-package com.enginizer.resttemplate.controller;
+package com.enginizer.rest.resources;
 
 import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;

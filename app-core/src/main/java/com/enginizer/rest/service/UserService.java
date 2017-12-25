@@ -1,11 +1,11 @@
-package com.enginizer.resttemplate.service;
+package com.enginizer.rest.service;
 
-import com.enginizer.resttemplate.model.entity.User;
-import com.enginizer.resttemplate.repository.UserRepository;
-import com.enginizer.resttemplate.service.exception.ResourceNotFound;
-import java.util.ArrayList;
-import java.util.List;
+import com.enginizer.rest.model.dto.UserDTO;
+import com.enginizer.rest.model.entity.User;
+import com.enginizer.rest.repository.UserRepository;
+import com.enginizer.rest.service.exception.ResourceNotFound;
 import java.util.Optional;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +16,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     public Page<User> getAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
@@ -31,14 +34,12 @@ public class UserService {
         return user.get();
     }
 
-    public User createUser(User user) {
-        User save = userRepository.save(user);
-        return save;
+    public UserDTO createUser(UserDTO user) {
+        User savedUser = userRepository.save(modelMapper.map(user, User.class));
+        return modelMapper.map(savedUser, UserDTO.class);
     }
 
-    public void deleteUserById(Long userID){
+    public void deleteUserById(Long userID) {
         userRepository.deleteById(userID);
     }
-
-
 }

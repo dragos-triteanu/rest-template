@@ -1,9 +1,20 @@
-package com.enginizer.resttemplate.model.dto;
+package com.enginizer.rest.model.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import javax.validation.constraints.Email;
+
+@ApiModel(description = "A user model")
 public class UserDTO {
 
+    @ApiModelProperty(hidden = true)
     private Long id;
+
+    @ApiModelProperty(notes = "The username of a user as an email")
+    @Email
     private String username;
+
+    @ApiModelProperty(notes = "The password of a user")
     private String password;
 
     public Long getId() {

@@ -1,4 +1,4 @@
-package com.enginizer.resttemplate.config;
+package com.enginizer.rest.config;
 
 import java.util.List;
 import java.util.Locale;
