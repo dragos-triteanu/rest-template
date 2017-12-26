@@ -31,7 +31,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("${app.baseURL}/users")
-@Api(value = "UserResource", description = "User API", basePath = "${app.baseURL}/users", tags = {"User"})
+@Api(value = "UserResource", description = "User API", basePath = "${app.baseURL}/users", tags = {
+        "User"})
 public class UserController {
 
     @Autowired
@@ -52,7 +53,7 @@ public class UserController {
     @GetMapping
     @ApiOperation(value = "Get All Users", notes = "Retrieves all the users with paging and sorting.", tags = {
             "User"})
-    public Page<User> getAllUsers(Pageable pageable) {
+    public Page<User> getUsers(Pageable pageable) {
         return userService.getAllUsers(pageable);
     }
 
@@ -64,7 +65,9 @@ public class UserController {
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "Get User by Id", notes = "Retrieves a User resource by the specified URI.", tags = {
             "User"})
-    public Resource<UserDTO> getUserById(@PathVariable("id") Long id) {
+    public Resource<UserDTO> getUserById(
+            @ApiParam()
+            @PathVariable("id") Long id) {
 
         User userById = userService.getUserById(id);
 
@@ -75,7 +78,7 @@ public class UserController {
         UserDTO dto = modelMapper.map(userById, UserDTO.class);
         Resource<UserDTO> userResource = new Resource<>(dto);
         ControllerLinkBuilder linkTo = linkTo(
-                methodOn(this.getClass()).getAllUsers(null));
+                methodOn(this.getClass()).getUsers(null));
         userResource.add(linkTo.withRel("all-users"));
 
         return userResource;
@@ -87,7 +90,7 @@ public class UserController {
      * @return 201 is successful.
      */
     @PutMapping
-    @ApiOperation(value = "Create User", notes = "Creates a new User", tags = {"User"})
+    @ApiOperation(value = "Create User",  notes = "Creates a new User", tags = {"User"})
     public ResponseEntity<UserDTO> createUser(
             @ApiParam(name = "user", required = true)
             @RequestBody
