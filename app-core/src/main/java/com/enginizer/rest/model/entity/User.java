@@ -1,5 +1,6 @@
 package com.enginizer.rest.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, updatable = false)
+    @JsonView(View.Summary.class)
     private Long id;
 
     @Column(name = "username")
@@ -56,3 +58,4 @@ public class User {
         this.id = id;
     }
 }
+

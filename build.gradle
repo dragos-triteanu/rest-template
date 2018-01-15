@@ -42,6 +42,8 @@ subprojects {
 
     ext {
         springLoadedVersion = '1.2.8.RELEASE'
+        swaggerVersion = '2.7.0'
+        modelMapperVersion = '1.1.1'
     }
 
     dependencies {
@@ -51,17 +53,21 @@ subprojects {
         compile('org.springframework.boot:spring-boot-starter-hateoas')
         runtime('org.springframework.boot:spring-boot-devtools')
 
+        // Actuator
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+        compile group: 'org.springframework.data', name: 'spring-data-rest-hal-browser'
+
         compile group: 'org.springframework', name: 'springloaded', version: "${springLoadedVersion}"
 
         // Enable xml serialization
         compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml'
 
         // Model mapper
-        compile group: 'org.modelmapper', name: 'modelmapper', version: '1.1.1'
+        compile group: 'org.modelmapper', name: 'modelmapper', version: "${modelMapperVersion}"
 
         // Swagger
-        compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
-        compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
+        compile group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}"
+        compile group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}"
 
         runtime('com.h2database:h2')
         testCompile('org.springframework.boot:spring-boot-starter-test')

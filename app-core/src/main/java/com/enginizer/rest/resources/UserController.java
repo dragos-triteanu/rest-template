@@ -5,8 +5,10 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import com.enginizer.rest.model.dto.UserDTO;
 import com.enginizer.rest.model.entity.User;
+import com.enginizer.rest.model.entity.View;
 import com.enginizer.rest.service.UserService;
 import com.enginizer.rest.service.exception.ResourceNotFound;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -85,12 +87,44 @@ public class UserController {
     }
 
     /**
+     * Retrieves a specific {@link User} id by it's URI.
+     * This is a good example of filtering
+     *
+     * @return the URI of the {@link User} identified by the URI.
+     */
+    @GetMapping(value = "/{id}/summary")
+    @ApiOperation(value = "Get User by Id", notes = "Retrieves a User resource by the specified URI.", tags = {
+            "User"})
+    @JsonView(View.Summary.class)
+    public User getFilteredUserId(
+            @ApiParam()
+            @PathVariable("id") Long id) {
+
+        User userById = userService.getUserById(id);
+
+        if (null == userById) {
+            throw new ResourceNotFound(User.class);
+        }
+
+
+//      TODO find a way of making @JsonView work with Resources
+//      https://www.udemy.com/microservices-with-spring-boot-and-spring-cloud/learn/v4/t/lecture/8005676?start=390
+//      Resource<User> userResource = new Resource<>(userById);
+//      ControllerLinkBuilder linkTo = linkTo(
+//      methodOn(this.getClass()).getUsers(null));
+//      userResource.add(linkTo.withRel("all-users"));
+
+        return userById;
+    }
+
+
+    /**
      * Creates a new {@link User}.
      *
      * @return 201 is successful.
      */
     @PutMapping
-    @ApiOperation(value = "Create User",  notes = "Creates a new User", tags = {"User"})
+    @ApiOperation(value = "Create User", notes = "Creates a new User", tags = {"User"})
     public ResponseEntity<UserDTO> createUser(
             @ApiParam(name = "user", required = true)
             @RequestBody
