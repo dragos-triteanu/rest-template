@@ -1,3 +1,13 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+}
+
 buildscript {
     ext {
         springBootVersion = '2.0.0.M7'
@@ -12,69 +22,49 @@ buildscript {
     }
 }
 
-apply plugin: 'idea'
-idea {
-    module {
-        inheritOutputDirs = false
-        outputDir = file("$buildDir/classes/main/")
-    }
+version = '0.0.1-SNAPSHOT'
+group = 'com.enginizer'
+
+
+sourceCompatibility = 1.9
+targetCompatibility = 1.9
+
+
+ext {
+    springLoadedVersion = '1.2.8.RELEASE'
+    swaggerVersion = '2.7.0'
+    modelMapperVersion = '1.1.1'
 }
 
-allprojects {
-    version = '0.0.1-SNAPSHOT'
-    group = 'com.enginizer'
+dependencies {
+    compile 'javax.xml.bind:jaxb-api:2.3.0'
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-hateoas')
+    runtime('org.springframework.boot:spring-boot-devtools')
+
+    // Actuator
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile group: 'org.springframework.data', name: 'spring-data-rest-hal-browser'
+
+    compile group: 'org.springframework', name: 'springloaded', version: "${springLoadedVersion}"
+
+    // Enable xml serialization
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml'
+
+    // Model mapper
+    compile group: 'org.modelmapper', name: 'modelmapper', version: "${modelMapperVersion}"
+
+    // Swagger
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}"
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}"
+
+    runtime('com.h2database:h2')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.security:spring-security-test')
 }
 
 
-subprojects {
-    repositories {
-        mavenCentral()
-        maven { url "https://repo.spring.io/snapshot" }
-        maven { url "https://repo.spring.io/milestone" }
-    }
 
-    apply plugin: 'java'
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
-
-    sourceCompatibility = 1.9
-    targetCompatibility = 1.9
-
-    ext {
-        springLoadedVersion = '1.2.8.RELEASE'
-        swaggerVersion = '2.7.0'
-        modelMapperVersion = '1.1.1'
-    }
-
-    dependencies {
-        compile 'javax.xml.bind:jaxb-api:2.3.0'
-        compile('org.springframework.boot:spring-boot-starter-data-jpa')
-        compile('org.springframework.boot:spring-boot-starter-web')
-        compile('org.springframework.boot:spring-boot-starter-hateoas')
-        runtime('org.springframework.boot:spring-boot-devtools')
-
-        // Actuator
-        compile('org.springframework.boot:spring-boot-starter-actuator')
-        compile group: 'org.springframework.data', name: 'spring-data-rest-hal-browser'
-
-        compile group: 'org.springframework', name: 'springloaded', version: "${springLoadedVersion}"
-
-        // Enable xml serialization
-        compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml'
-
-        // Model mapper
-        compile group: 'org.modelmapper', name: 'modelmapper', version: "${modelMapperVersion}"
-
-        // Swagger
-        compile group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}"
-        compile group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}"
-
-        runtime('com.h2database:h2')
-        testCompile('org.springframework.boot:spring-boot-starter-test')
-        testCompile('org.springframework.security:spring-security-test')
-    }
-
-
-}
 
 

@@ -25,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -123,7 +124,7 @@ public class UserController {
      *
      * @return 201 is successful.
      */
-    @PutMapping
+    @PostMapping
     @ApiOperation(value = "Create User", notes = "Creates a new User", tags = {"User"})
     public ResponseEntity<UserDTO> createUser(
             @ApiParam(name = "user", required = true)
