@@ -25,7 +25,7 @@ stages{
       }
       steps{
         sh "./gradlew docker"
-        sh "docker tag ${params.IMAGE_REPO_NAME} ${params.IMAGE_REPO_NAME}:$COMMIT_TAG
+        sh "docker tag ${params.IMAGE_REPO_NAME} ${params.IMAGE_REPO_NAME}:$COMMIT_TAG"
       }
   }
 }
